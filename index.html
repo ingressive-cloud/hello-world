@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>hello world</title>
+<link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Creepster&family=Permanent+Marker&family=Abril+Fatface&family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 100%; height: 100%; overflow: hidden; background: #000; }
+
+/* Each bouncer is a plain wrapper div — JS moves it via top/left.
+   The inner element does all the CSS animation magic.
+   This keeps JS positioning and CSS transforms completely separate. */
+.bouncer {
+  position: absolute;
+  /* no transform here ever */
+}
+
+/* ── CHAT ── */
+.chat-msg {
+  position: absolute;
+  right: -800px;
+  white-space: nowrap;
+  font-family: 'Comic Neue', cursive;
+  font-size: 1.1rem;
+  font-weight: 700;
+  padding: 3px 12px 3px 8px;
+  border-radius: 2px;
+  background: rgba(0,0,0,0.6);
+  border-left: 3px solid;
+  pointer-events: none;
+  animation: chat-scroll linear forwards;
+}
+@keyframes chat-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(calc(-100vw - 900px)); }
+}
+
+/* ── ANIMATIONS ── */
+@keyframes rainbow-text { 0%{color:#f00}14%{color:#f70}28%{color:#ff0}42%{color:#0f0}57%{color:#00f}71%{color:#80f}85%{color:#f0f}100%{color:#f00} }
+@keyframes spin         { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+@keyframes flash        { 0%,49%{opacity:1} 50%,100%{opacity:0} }
+@keyframes letter-bop   { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-14px)} }
+@keyframes shakex       { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-7px)} 75%{transform:translateX(7px)} }
+@keyframes zpulse       { 0%,100%{transform:scale(1)} 50%{transform:scale(1.25)} }
+@keyframes warp         { 0%,100%{letter-spacing:.04em} 50%{letter-spacing:.5em} }
+@keyframes skewrock     { 0%,100%{transform:skewX(0)} 25%{transform:skewX(14deg)} 75%{transform:skewX(-14deg)} }
+@keyframes neonpulse    { 0%,100%{text-shadow:0 0 7px #fff,0 0 20px #fff,0 0 45px #0ff,0 0 80px #0ff} 50%{text-shadow:0 0 4px #fff,0 0 10px #0ff} }
+@keyframes glitch1      { 0%,100%{clip-path:inset(0 0 80% 0);transform:translate(-4px,0)} 33%{clip-path:inset(40% 0 40% 0);transform:translate(4px,0)} 66%{clip-path:inset(80% 0 0 0);transform:translate(-2px,0)} }
+@keyframes glitch2      { 0%,100%{clip-path:inset(0 0 60% 0);transform:translate(4px,0)} 50%{clip-path:inset(60% 0 0 0);transform:translate(-4px,0)} }
+@keyframes stamp        { 0%{transform:scale(.3) rotate(-20deg);opacity:0} 60%{transform:scale(1.2) rotate(4deg);opacity:1} 80%{transform:scale(.95)} 100%{transform:scale(1)} }
+@keyframes huerot       { from{filter:hue-rotate(0deg)} to{filter:hue-rotate(360deg)} }
+@keyframes rbg          { 0%,100%{background-position:0% 50%} 50%{background-position:100% 50%} }
+@keyframes flipflop     { 0%,40%,100%{transform:rotate(0deg)} 50%,90%{transform:rotate(180deg)} }
+@keyframes tiny-flash   { 0%,74%{opacity:1} 75%,100%{opacity:0} }
+
+/* ── STYLES (applied to inner elements only) ── */
+.s-spin {
+  font-family:'Boogaloo',cursive; font-size:2.6rem;
+  display:inline-block;
+  animation: spin 3s linear infinite, rainbow-text .6s linear infinite;
+}
+.s-glitch {
+  position:relative; display:inline-block;
+  font-family:'Abril Fatface',serif; font-size:2.6rem;
+  color:#fff; text-shadow:3px 0 red,-3px 0 cyan;
+}
+.s-glitch::before,.s-glitch::after {
+  content:attr(data-t); position:absolute; top:0; left:0; width:100%;
+}
+.s-glitch::before { color:#f0f; animation:glitch1 .3s steps(1) infinite; }
+.s-glitch::after  { color:#0ff; animation:glitch2 .5s steps(1) infinite; }
+.s-neon {
+  font-family:'Creepster',cursive; font-size:2.6rem; color:#fff;
+  animation:neonpulse 1.5s ease-in-out infinite;
+}
+.s-flash {
+  font-family:'Permanent Marker',cursive; font-size:2.6rem;
+  background:linear-gradient(90deg,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  background-size:200%; display:inline-block;
+  animation:rbg 1s linear infinite, flash .35s step-start infinite;
+}
+.s-letters { display:inline-flex; font-family:'Boogaloo',cursive; font-size:2.6rem; }
+.s-letters span { display:inline-block; animation:letter-bop .6s ease-in-out infinite, rainbow-text 1s linear infinite; }
+.s-upside {
+  font-family:'Creepster',cursive; font-size:2.6rem; color:lime;
+  display:inline-block; animation:flipflop 3s ease-in-out infinite;
+}
+.s-shake {
+  font-family:'Permanent Marker',cursive; font-size:2.6rem; color:orange;
+  display:inline-block; text-shadow:2px 2px 0 red,4px 4px 0 yellow;
+  animation:shakex .12s linear infinite;
+}
+.s-zoom {
+  font-family:'Abril Fatface',serif; font-size:2.6rem; display:inline-block;
+  animation:zpulse .8s ease-in-out infinite, rainbow-text 1s linear infinite;
+}
+.s-skew {
+  font-family:'Boogaloo',cursive; font-size:2.6rem; color:hotpink;
+  display:inline-block; text-shadow:3px 3px 0 #000;
+  animation:skewrock .7s ease-in-out infinite;
+}
+.s-warp {
+  font-family:'Creepster',cursive; font-size:2.6rem; color:yellow;
+  display:inline-block; text-shadow:0 0 20px yellow,0 0 40px orange;
+  animation:warp 1.4s ease-in-out infinite;
+}
+.s-stamp {
+  font-family:'Abril Fatface',serif; font-size:2.6rem; color:#fff;
+  display:inline-block; text-shadow:4px 4px 0 red;
+  animation:stamp 1.2s cubic-bezier(.36,.07,.19,.97) infinite;
+}
+.s-hue {
+  font-family:'Boogaloo',cursive; font-size:2.6rem; font-weight:900;
+  color:#000; padding:2px 14px; display:inline-block;
+  background:linear-gradient(90deg,#f00,#ff0,#0f0,#0ff,#00f,#f0f);
+  animation:huerot 1.5s linear infinite;
+}
+.s-tiny {
+  font-family:monospace; font-size:.58rem; color:lime;
+  width:190px; word-break:break-all; line-height:1.5;
+  animation:tiny-flash 1s step-start infinite;
+}
+.s-massive {
+  font-family:'Boogaloo',cursive; font-size:4.5rem; line-height:.92;
+  display:inline-block; text-align:center;
+  animation:rainbow-text .4s linear infinite, zpulse 2s ease-in-out infinite;
+}
+</style>
+</head>
+<body>
+
+<canvas id="c"></canvas>
+<div id="chat"></div>
+<div id="stage"></div>
+
+<script>
+// ── MATRIX ───────────────────────────────────────────────────────────────────
+const canvas = document.getElementById('c');
+canvas.style.cssText = 'position:fixed;inset:0;z-index:0;';
+const ctx = canvas.getContext('2d');
+function resize() { canvas.width = innerWidth; canvas.height = innerHeight; }
+resize(); addEventListener('resize', resize);
+
+const CHARS = 'helloworld';
+const FS = 14;
+let drops = [];
+function initDrops() {
+  drops = Array.from({length: Math.floor(innerWidth/FS)}, () => Math.random() * -(innerHeight/FS));
+}
+initDrops(); addEventListener('resize', initDrops);
+
+setInterval(() => {
+  ctx.fillStyle = 'rgba(0,0,0,0.05)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.font = FS + 'px monospace';
+  drops.forEach((y, i) => {
+    const r = Math.random();
+    ctx.fillStyle = r > .97 ? '#fff' : r > .8 ? '#0f0' : '#030';
+    ctx.fillText(CHARS[Math.floor(Math.random()*CHARS.length)], i*FS, y*FS);
+    if (y*FS > canvas.height && Math.random() > .975) drops[i] = 0;
+    drops[i] += .5 + Math.random()*.5;
+  });
+}, 40);
+
+// ── BUILD ELEMENTS ────────────────────────────────────────────────────────────
+const stage = document.getElementById('stage');
+stage.style.cssText = 'position:fixed;inset:0;z-index:3;pointer-events:none;';
+
+// Each entry: the INNER html/class. We wrap it in a .bouncer div.
+// JS only ever moves the .bouncer via top/left — never touches transform.
+const specs = [
+  { cls:'s-spin',    html:'hello world' },
+  { cls:'s-glitch',  html:'hello world', extra: el => el.setAttribute('data-t','hello world') },
+  { cls:'s-neon',    html:'hello world' },
+  { cls:'s-flash',   html:'hello world' },
+  { cls:'s-letters', html: null }, // built specially
+  { cls:'s-upside',  html:'hello world' },
+  { cls:'s-shake',   html:'hello world' },
+  { cls:'s-zoom',    html:'hello world' },
+  { cls:'s-skew',    html:'hello world' },
+  { cls:'s-warp',    html:'hello world' },
+  { cls:'s-stamp',   html:'hello world' },
+  { cls:'s-hue',     html:'hello world' },
+  { cls:'s-tiny',    html: Array(20).fill('hello world').join(' ') },
+  { cls:'s-massive', html:'hello<br>world' },
+];
+
+const bouncers = specs.map(spec => {
+  // outer wrapper — only top/left ever change
+  const outer = document.createElement('div');
+  outer.className = 'bouncer';
+
+  // inner styled element
+  const inner = document.createElement('div');
+  inner.className = spec.cls;
+
+  if (spec.cls === 's-letters') {
+    'hello world'.split('').forEach((ch, i) => {
+      const s = document.createElement('span');
+      s.textContent = ch === ' ' ? '\u00a0' : ch;
+      s.style.animationDelay = (i * .07) + 's';
+      inner.appendChild(s);
+    });
+  } else {
+    inner.innerHTML = spec.html;
+  }
+
+  if (spec.extra) spec.extra(inner);
+  outer.appendChild(inner);
+  stage.appendChild(outer);
+  return { outer, inner };
+});
+
+// ── DVD BOUNCE ────────────────────────────────────────────────────────────────
+const dvds = [];
+
+function initDVDs() {
+  dvds.length = 0;
+  bouncers.forEach(({ outer, inner }) => {
+    const w = outer.offsetWidth  || inner.offsetWidth  || 220;
+    const h = outer.offsetHeight || inner.offsetHeight || 70;
+    const speed = 0.9 + Math.random() * 1.4;
+    const angle = Math.random() * 2 * Math.PI;
+    const x = Math.random() * Math.max(0, innerWidth  - w);
+    const y = Math.random() * Math.max(0, innerHeight - h);
+    outer.style.left = x + 'px';
+    outer.style.top  = y + 'px';
+    dvds.push({ outer, w, h, x, y,
+      vx: Math.cos(angle) * speed,
+      vy: Math.sin(angle) * speed,
+    });
+  });
+}
+
+// Wait for fonts, THEN measure, THEN start
+document.fonts.ready.then(() => {
+  // extra frame to let layout settle after fonts resolve
+  requestAnimationFrame(() => {
+    initDVDs();
+    requestAnimationFrame(tick);
+  });
+});
+
+let last = 0;
+function tick(ts) {
+  const dt = Math.min(ts - last, 48);
+  last = ts;
+  const sw = innerWidth, sh = innerHeight;
+
+  dvds.forEach(d => {
+    d.x += d.vx * dt * 0.055;
+    d.y += d.vy * dt * 0.055;
+
+    if (d.x <= 0)         { d.x = 0;        d.vx =  Math.abs(d.vx); }
+    if (d.x + d.w >= sw)  { d.x = sw - d.w; d.vx = -Math.abs(d.vx); }
+    if (d.y <= 0)         { d.y = 0;        d.vy =  Math.abs(d.vy); }
+    if (d.y + d.h >= sh)  { d.y = sh - d.h; d.vy = -Math.abs(d.vy); }
+
+    // Move via top/left — NEVER transform, so CSS animations are unaffected
+    d.outer.style.left = d.x + 'px';
+    d.outer.style.top  = d.y + 'px';
+  });
+
+  requestAnimationFrame(tick);
+}
+
+// ── LIVE CHAT ─────────────────────────────────────────────────────────────────
+const chatLayer = document.getElementById('chat');
+chatLayer.style.cssText = 'position:fixed;inset:0;z-index:5;pointer-events:none;overflow:hidden;';
+
+const phrases = [
+  'hello world','HELLO WORLD!!!','hElLo WoRlD','h e l l o  w o r l d',
+  'hello world 🔥','OMFG HELLO WORLD','lmao hello world again',
+  '👋 world','KEKW hello world','PogChamp WORLD','hellooooo worldddd',
+  'wait it said hello world AGAIN','bro said hello world 💀',
+  'hello world speedrun','just tuned in… hello world???',
+  'LETS GOOO HELLO WORLD','chat is this hello world',
+  'hello world W','hello world ratio','HELLO WORLD HYPE',
+  'is it always hello world','hello world jumpscare',
+  'HW MENTIONED 👆','hello world real??','i cant escape hello world',
+  'more hello world LETS GO','😭😭 hello world','hello world PauseChamp',
+  'hello world diff today?? looks same','the hello world arc is insane',
+  'based hello world','hello world mentioned 🗣️','first time here wtf',
+];
+const users = [
+  'xX_h3llo_Xx','w0rld_enjoyer','dvdBounce99','glitchKing','neonGod42',
+  'rainbowFlash','bounceMaster','skewViewer','warpZone','stampedePog',
+  'matrixGreenBoi','spamBot9000','cursedViewer','h3lloW0rld','shakeItOff',
+  'zoomZoomBrrr','spinToWin','upsideDownGuy','tinyTextFan','massiveHWfan',
+];
+const colors = [
+  '#ff4444','#ff8800','#ffdd00','#44ff44','#00ffff',
+  '#4488ff','#ff44ff','#ff88aa','#88ff88','#ffaa44',
+];
+const LANES = 18;
+
+function spawnChat() {
+  const lane     = Math.floor(Math.random() * LANES);
+  const color    = colors[Math.floor(Math.random() * colors.length)];
+  const user     = users[Math.floor(Math.random() * users.length)];
+  const text     = phrases[Math.floor(Math.random() * phrases.length)];
+  const duration = 5000 + Math.random() * 5000;
+  const msg      = document.createElement('div');
+  msg.className  = 'chat-msg';
+  msg.style.top  = (lane * (innerHeight / LANES)) + 'px';
+  msg.style.borderColor = color;
+  msg.innerHTML  = `<span style="color:${color}">${user}</span>: <span style="color:#fff">${text}</span>`;
+  msg.style.animationDuration = duration + 'ms';
+  chatLayer.appendChild(msg);
+  setTimeout(() => msg.remove(), duration + 300);
+}
+
+for (let i = 0; i < 6; i++) setTimeout(spawnChat, i * 300);
+setInterval(spawnChat, 420);
+</script>
+</body>
+</html>
