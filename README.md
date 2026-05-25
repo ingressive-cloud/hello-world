@@ -23,6 +23,22 @@ To run a specific commit instead of `latest`:
 docker run --rm -p 8080:80 ghcr.io/ingressive-cloud/hello-world:sha-<commit-sha>
 ```
 
+## Run with Docker Compose
+
+```yaml
+services:
+  hello-world:
+    image: ghcr.io/ingressive-cloud/hello-world:latest
+    ports:
+      - "8080:80"
+```
+
+Save as `compose.yaml` and run:
+
+```sh
+docker compose up
+```
+
 ## Build locally
 
 ```sh
